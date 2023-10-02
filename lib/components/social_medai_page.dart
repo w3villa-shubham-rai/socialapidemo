@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:socialmedia_page/components/likecommentcoustombtn.dart';
 import 'package:socialmedia_page/components/sharethouthcoustombtn.dart';
 import 'package:socialmedia_page/model/userpostmodel.dart';
 import 'package:socialmedia_page/model/userstorymodel.dart';
+import 'package:socialmedia_page/view_model/controller/social_view_model.dart';
 
 class SocialMedaiaPage extends StatefulWidget {
   const SocialMedaiaPage({super.key});
@@ -12,12 +14,20 @@ class SocialMedaiaPage extends StatefulWidget {
 }
 
 class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
+   final SocialController socialController = Get.put(SocialController());
+
+  @override
+  void initState() {
+    super.initState();
+    socialController.fetchUserList();
+  }
+  
   @override
   Widget build(BuildContext context) {
+   
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-
-
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(

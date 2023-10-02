@@ -6,23 +6,29 @@ import 'package:socialmedia_page/data/network/base_api_service.dart';
 
 class NetworkService extends BaseApiService {
   @override
-  Future<dynamic> getApi(String url) async {}
+  Future<dynamic> getApi(dynamic url) async {}
 
   @override
-  Future postApi(data, String url) async {
+  Future postApi(data, dynamic url) async {
     if (kDebugMode) {
       print(url);
     }
     dynamic responscejson;
     try {
-      final responsce =
-          await get(Uri.parse(url)).timeout(const Duration(seconds: 10));
+      final Map<String, String> headers = {
+        'Authorization':
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoyLCJ0aW1lIjoxNjk1OTY4NTMxfQ.7pjcCCVoZzkzUu3d_l-HmbU935tDYB-jtb-vBNp-6gs',
+      };
+      final responsce = await get(Uri.parse(url), headers: headers)
+          .timeout(const Duration(seconds: 10));
+      debugPrint(responsce.toString());
       responscejson = returnResponsce(responsce);
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
     }
+    return responscejson;
   }
 
   dynamic returnResponsce(http.Response response) {
