@@ -19,7 +19,7 @@ class NetworkService extends BaseApiService {
             'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoyLCJ0aW1lIjoxNjk1OTY4NTMxfQ.7pjcCCVoZzkzUu3d_l-HmbU935tDYB-jtb-vBNp-6gs',
       };
       final responsce = await get(Uri.parse(url), headers: headers)
-          .timeout(const Duration(seconds: 10));
+          .timeout(const Duration(seconds: 30));
       debugPrint(responsce.toString());
       responscejson = returnResponsce(responsce);
     } catch (e) {
@@ -32,25 +32,7 @@ class NetworkService extends BaseApiService {
 
   @override
   Future postApi(data, dynamic url) async {
-    // if (kDebugMode) {
-    //   print(url);
-    // }
-    // dynamic responscejson;
-    // try {
-    //   final Map<String, String> headers = {
-    //     'Authorization':
-    //         'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoyLCJ0aW1lIjoxNjk1OTY4NTMxfQ.7pjcCCVoZzkzUu3d_l-HmbU935tDYB-jtb-vBNp-6gs',
-    //   };
-    //   final responsce = await get(Uri.parse(url), headers: headers)
-    //       .timeout(const Duration(seconds: 10));
-    //   debugPrint(responsce.toString());
-    //   responscejson = returnResponsce(responsce);
-    // } catch (e) {
-    //   if (kDebugMode) {
-    //     print(e);
-    //   }
-    // }
-    // return responscejson;
+   
   }
 
   dynamic returnResponsce(http.Response response) {

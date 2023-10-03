@@ -87,34 +87,62 @@ import 'package:socialmedia_page/repositry/socialrepositry/socialrepositry.dart'
   // }
 // }
 
+// class SocialController extends GetxController {
+//   final _api = SocailRepositry();
+
+//   dynamic fetchedData; // Variable to store the fetched data
+
+//   dynamic fetchUserList() async {
+//     try {
+//       final value = await _api.userListApi();
+//       if (value != null) {
+//         // Store the fetched data in the 'fetchedData' variable
+//         fetchedData = value;
+
+//         // Print the API data once it's fetched.
+//         if (kDebugMode) {
+//           print("API Data: $fetchedData");
+//         }
+//       } else {
+//         // Handle the case where the response is null
+//         // You can add your error handling logic here
+//       }
+//     } catch (error) {
+//       if (kDebugMode) {
+//         print("Error: $error");
+//       }
+//     }
+//   }
+// }
+
+
 class SocialController extends GetxController {
   final _api = SocailRepositry();
 
-  dynamic fetchedData; // Variable to store the fetched data
+  var isLoading = true.obs;
+  Rx<dynamic> fetchedData = Rx<dynamic>(null); 
 
-  dynamic fetchUserList() async {
+  Future<void> fetchUserList() async {
     try {
+      isLoading(true);
       final value = await _api.userListApi();
       if (value != null) {
-        // Store the fetched data in the 'fetchedData' variable
-        fetchedData = value;
-
-        // Print the API data once it's fetched.
+        fetchedData.value = value;
         if (kDebugMode) {
-          print("API Data: $fetchedData");
+          print("API Data: ${fetchedData.value}");
         }
       } else {
-        // Handle the case where the response is null
-        // You can add your error handling logic here
+       
       }
     } catch (error) {
       if (kDebugMode) {
         print("Error: $error");
       }
+    } finally {
+      isLoading(false);
     }
   }
 }
-
 
 
 

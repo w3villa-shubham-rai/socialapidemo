@@ -20,13 +20,13 @@ class SocailRepositry {
   Future<Map<String, dynamic>?> userListApi() async {
     try {
       Map<String, dynamic>? response = await _apiservice.getApi(AppUrl.socialmediapageurl);
-      // debugPrint("Response: $response");
+      
       return response;
     } catch (error) {
       if (kDebugMode) {
         print("Error: $error");
       }
-      return null; // Return null in case of an error
+      return null; 
     }
   }
 }

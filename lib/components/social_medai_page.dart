@@ -14,20 +14,19 @@ class SocialMedaiaPage extends StatefulWidget {
 }
 
 class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
-   final SocialController socialController = Get.put(SocialController());
+  final SocialController socialController = Get.put(SocialController());
 
   @override
   void initState() {
     super.initState();
     socialController.fetchUserList();
   }
-  
+
   @override
   Widget build(BuildContext context) {
-   
-
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -36,18 +35,23 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
             child: Column(
               children: [
                 SizedBox(
-                    width: width,
-                    height: height,
-                    child: ListView(
-                      children: [
-                        getFirstItem(),
-                        ...List.generate(userpostdetaillist.length, (index) {
-                          return UserPostContentSection(
-                              userpostsection: userpostdetaillist[index]);
-                        }),
-                      ],
-                    )                    
-                    )
+                  width: width,
+                  height: height,
+                  child: Obx(() {
+                    if (socialController.isLoading.value) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (socialController.fetchedData.value != null) {
+                      // Replace this part with how you want to display your data
+                      final fetchedData = socialController.fetchedData.value;
+                      return Text("Fetched Data: $fetchedData");
+                    } else {
+                      
+                      return Text("Failed to fetch data.");
+                    }
+                  }),
+                ),
               ],
             ),
           ),
@@ -56,6 +60,8 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
     );
   }
 }
+
+
 
 Widget getFirstItem() {
   return Column(
