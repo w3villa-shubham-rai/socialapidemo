@@ -59,30 +59,63 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:socialmedia_page/model/socialmediapage/social_media_model_form.dart';
+
 import 'package:socialmedia_page/repositry/socialrepositry/socialrepositry.dart';
+
+// class SocialController extends GetxController {
+//   final _api = SocailRepositry();
+
+  // final userList = WallPosts(wallPosts: [], totalPages: 0).obs;
+  
+  // void setUserList(WallPosts value) {
+  //   userList.value = value;
+  // }
+
+  // dynamic fetchUserList() async {
+  // await _api.userListApi().then((value) 
+  //   {
+  //     // setUserList(value);
+  //     // Print the API data once it's fetched.
+  //     if (kDebugMode) {
+  //       print("API Data: ${value.toJson()}");
+  //     }
+  //   }).catchError((error) {
+  //     if (kDebugMode) {
+  //       print("Error: $error");
+  //     }
+  //   });
+  // }
+// }
 
 class SocialController extends GetxController {
   final _api = SocailRepositry();
 
-  final userList = WallPosts(wallPosts: [], totalPages: 0).obs;
-  
-  void setUserList(WallPosts value) {
-    userList.value = value;
-  }
+  dynamic fetchedData; // Variable to store the fetched data
 
   dynamic fetchUserList() async {
-  await _api.userListApi().then((value) 
-    {
-      setUserList(value);
-      // Print the API data once it's fetched.
-      if (kDebugMode) {
-        print("API Data: ${value.toJson()}");
+    try {
+      final value = await _api.userListApi();
+      if (value != null) {
+        // Store the fetched data in the 'fetchedData' variable
+        fetchedData = value;
+
+        // Print the API data once it's fetched.
+        if (kDebugMode) {
+          print("API Data: $fetchedData");
+        }
+      } else {
+        // Handle the case where the response is null
+        // You can add your error handling logic here
       }
-    }).catchError((error) {
+    } catch (error) {
       if (kDebugMode) {
         print("Error: $error");
       }
-    });
+    }
   }
 }
+
+
+
+
+
