@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart';
 import 'package:socialmedia_page/components/likecommentcoustombtn.dart';
 import 'package:socialmedia_page/components/sharethouthcoustombtn.dart';
+import 'package:socialmedia_page/model/socialmediapage/social_media_model_form.dart';
 import 'package:socialmedia_page/model/userpostmodel.dart';
 import 'package:socialmedia_page/model/userstorymodel.dart';
 import 'package:socialmedia_page/view_model/controller/social_view_model.dart';
@@ -28,9 +29,8 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    return 
-     Scaffold(
-      body:Obx(
+    return Scaffold(
+      body: Obx(
         () {
           if (socialController.isLoading.value) {
             return Center(
@@ -44,24 +44,16 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
             return ListView.builder(
               itemCount: socialController.fetchedData.length,
               itemBuilder: (context, index) {
-                final item = socialController.fetchedData[index];
-                return ListTile(
-                  title: Text('ID: ${item.id.toString()}'),
-                  subtitle: Text(
-                    'Total Comments: ${item.totalComments.toString()} Total Likes: ${item.totalLikes.toString()}',
-                  ),
-                );
+                return UserPostContentSection(
+                    userpostsection: socialController.fetchedData[index]);
               },
             );
           }
         },
       ),
     );
-    
   }
 }
-
-
 
 Widget getFirstItem() {
   return Column(
@@ -333,7 +325,7 @@ Widget ShareThought() {
 // social media main part start
 
 // ignore: non_constant_identifier_names
-Widget UserPostContentSection({required UserPostmodelDetail userpostsection}) {
+Widget UserPostContentSection({required WallPost userpostsection}) {
   return Container(
     margin: const EdgeInsets.only(top: 10),
     decoration: const BoxDecoration(
@@ -354,7 +346,7 @@ Widget UserPostContentSection({required UserPostmodelDetail userpostsection}) {
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: AssetImage(userpostsection.userpostimg),
+                    backgroundImage: NetworkImage("https://staging.simmpli.com" +userpostsection.profile!.dpUrlSmall.toString()),
                     radius: 20,
                   ),
                   const SizedBox(
@@ -364,7 +356,7 @@ Widget UserPostContentSection({required UserPostmodelDetail userpostsection}) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        userpostsection.userpostname,
+                        userpostsection.profile!.fullName.toString(),
                         style: const TextStyle(
                             color: Color(0xFF19295C),
                             fontSize: 15,
@@ -380,9 +372,9 @@ Widget UserPostContentSection({required UserPostmodelDetail userpostsection}) {
                           const SizedBox(
                             width: 5,
                           ),
-                          const Text(
-                            '09:37 AM',
-                            style: TextStyle(
+                           Text(
+                             userpostsection.timeAgo.toString(),
+                            style: const TextStyle(
                                 color: Color(0xFFBABDC9), fontSize: 12),
                           )
                         ],
@@ -393,13 +385,13 @@ Widget UserPostContentSection({required UserPostmodelDetail userpostsection}) {
               )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
+          const Padding(
+            padding: EdgeInsets.only(top: 15),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                userpostsection.userpoststatusDescription,
-              ),
+              // child: Text(
+              //   userpostsection.userpoststatusDescription,
+              // ),
             ),
           ),
           Padding(
@@ -407,11 +399,11 @@ Widget UserPostContentSection({required UserPostmodelDetail userpostsection}) {
             child: Container(
               height: 245,
               width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                image: DecorationImage(
-                    image: AssetImage(userpostsection.usermainpostedimg),
-                    fit: BoxFit.fill),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                // image: DecorationImage(
+                //     image: AssetImage(userpostsection.usermainpostedimg),
+                //     fit: BoxFit.fill),
               ),
             ),
           ),
@@ -433,7 +425,7 @@ Widget UserPostContentSection({required UserPostmodelDetail userpostsection}) {
               ),
               SizedBox(
                   child: Text(
-                '${userpostsection.numberofcomments} Comments ${userpostsection.numberofLikes} Likes',
+                '${userpostsection.totalComments} Comments ${userpostsection.totalLikes} Likes',
                 style: const TextStyle(
                   color: Color(0xFF747EA0),
                   fontSize: 14,
@@ -476,20 +468,35 @@ Widget UserPostContentSection({required UserPostmodelDetail userpostsection}) {
                             decoration: BoxDecoration(
                                 color: const Color(0xFFF0F4FF),
                                 borderRadius: BorderRadius.circular(5)),
-                            child: const Align(
+                            child: Align(
                               alignment: Alignment.centerLeft,
                               child: Padding(
                                 padding: EdgeInsets.all(3.0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Happy Birthday @Sandeep Tomer',
-                                      style: TextStyle(
-                                          color: Color(0xFF000000),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w700),
-                                    ),
+                                     if (userpostsection.postComments != null)
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: userpostsection.postComments?.length,
+            itemBuilder: (context, index) {
+              final postComment = userpostsection.postComments?[index];
+              return Text(
+                postComment!.content.toString(),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+              );
+            },
+          ),
+                                    // Text(
+                                    //   'Happy Birthday @Sandeep Tomer',
+                                    //   style: TextStyle(
+                                    //       color: Color(0xFF000000),
+                                    //       fontSize: 14,
+                                    //       fontWeight: FontWeight.w700),
+                                    // ),
                                     Text(
                                       'Thursday,13 jul 2023',
                                       style: TextStyle(
