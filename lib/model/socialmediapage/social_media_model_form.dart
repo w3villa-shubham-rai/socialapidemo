@@ -411,6 +411,16 @@
 // }
 
 
+// To parse this JSON data, do
+//
+//     final wallPosts = wallPostsFromJson(jsonString);
+
+import 'dart:convert';
+
+WallPosts wallPostsFromJson(String str) => WallPosts.fromJson(json.decode(str));
+
+String wallPostsToJson(WallPosts data) => json.encode(data.toJson());
+
 class WallPosts {
     List<WallPost>? wallPosts;
     int? totalPages;
@@ -420,6 +430,15 @@ class WallPosts {
         this.totalPages,
     });
 
+    factory WallPosts.fromJson(Map<String, dynamic> json) => WallPosts(
+        wallPosts: json["wall_posts"] == null ? [] : List<WallPost>.from(json["wall_posts"]!.map((x) => WallPost.fromJson(x))),
+        totalPages: json["total_pages"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "wall_posts": wallPosts == null ? [] : List<dynamic>.from(wallPosts!.map((x) => x.toJson())),
+        "total_pages": totalPages,
+    };
 }
 
 class WallPost {
@@ -471,6 +490,55 @@ class WallPost {
         this.postComments,
     });
 
+    factory WallPost.fromJson(Map<String, dynamic> json) => WallPost(
+        id: json["id"],
+        postBody: json["post_body"],
+        body: json["body"],
+        formattedBody: json["formatted_body"],
+        wallPostType: json["wall_post_type"],
+        emojiName: json["emoji_name"],
+        isLiked: json["is_liked"],
+        totalLikes: json["total_likes"],
+        timeAgo: json["time_ago"],
+        attachmentUrl: json["attachment_url"],
+        originalAttachmentUrl: json["original_attachment_url"],
+        isEdited: json["is_edited"],
+        surveyTaken: json["survey_taken"],
+        totalComments: json["total_comments"],
+        imageUrl: json["image_url"],
+        isVideo: json["is_video"],
+        outsideShowcaseImage: json["outside_showcase_image"],
+        imgUrlSmall: json["img_url_small"],
+        profile: json["profile"] == null ? null : Profile.fromJson(json["profile"]),
+        children: json["children"] == null ? [] : List<WallPost>.from(json["children"]!.map((x) => WallPost.fromJson(x))),
+        surveyQuestions: json["survey_questions"] == null ? [] : List<SurveyQuestion>.from(json["survey_questions"]!.map((x) => SurveyQuestion.fromJson(x))),
+        postComments: json["post_comments"] == null ? [] : List<PostComment>.from(json["post_comments"]!.map((x) => PostComment.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "post_body": postBody,
+        "body": body,
+        "formatted_body": formattedBody,
+        "wall_post_type": wallPostType,
+        "emoji_name": emojiName,
+        "is_liked": isLiked,
+        "total_likes": totalLikes,
+        "time_ago": timeAgo,
+        "attachment_url": attachmentUrl,
+        "original_attachment_url": originalAttachmentUrl,
+        "is_edited": isEdited,
+        "survey_taken": surveyTaken,
+        "total_comments": totalComments,
+        "image_url": imageUrl,
+        "is_video": isVideo,
+        "outside_showcase_image": outsideShowcaseImage,
+        "img_url_small": imgUrlSmall,
+        "profile": profile?.toJson(),
+        "children": children == null ? [] : List<dynamic>.from(children!.map((x) => x.toJson())),
+        "survey_questions": surveyQuestions == null ? [] : List<dynamic>.from(surveyQuestions!.map((x) => x.toJson())),
+        "post_comments": postComments == null ? [] : List<dynamic>.from(postComments!.map((x) => x.toJson())),
+    };
 }
 
 class PostComment {
@@ -492,6 +560,25 @@ class PostComment {
         this.content,
     });
 
+    factory PostComment.fromJson(Map<String, dynamic> json) => PostComment(
+        id: json["id"],
+        date: json["date"],
+        formattedBody: json["formatted_body"],
+        fullName: json["full_name"],
+        profileId: json["profile_id"],
+        dp: json["dp"],
+        content: json["content"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "date": date,
+        "formatted_body": formattedBody,
+        "full_name": fullName,
+        "profile_id": profileId,
+        "dp": dp,
+        "content": content,
+    };
 }
 
 class Profile {
@@ -509,6 +596,21 @@ class Profile {
         this.deletedAt,
     });
 
+    factory Profile.fromJson(Map<String, dynamic> json) => Profile(
+        id: json["id"],
+        firstName: json["first_name"],
+        dpUrlSmall: json["dp_url_small"],
+        fullName: json["full_name"],
+        deletedAt: json["deleted_at"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "first_name": firstName,
+        "dp_url_small": dpUrlSmall,
+        "full_name": fullName,
+        "deleted_at": deletedAt,
+    };
 }
 
 class SurveyQuestion {
@@ -528,6 +630,23 @@ class SurveyQuestion {
         this.surveyResponses,
     });
 
+    factory SurveyQuestion.fromJson(Map<String, dynamic> json) => SurveyQuestion(
+        id: json["id"],
+        text: json["text"],
+        questionType: json["question_type"],
+        required: json["required"],
+        surveyOptions: json["survey_options"] == null ? [] : List<SurveyOption>.from(json["survey_options"]!.map((x) => SurveyOption.fromJson(x))),
+        surveyResponses: json["survey_responses"] == null ? [] : List<SurveyResponse>.from(json["survey_responses"]!.map((x) => SurveyResponse.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "text": text,
+        "question_type": questionType,
+        "required": required,
+        "survey_options": surveyOptions == null ? [] : List<dynamic>.from(surveyOptions!.map((x) => x.toJson())),
+        "survey_responses": surveyResponses == null ? [] : List<dynamic>.from(surveyResponses!.map((x) => x.toJson())),
+    };
 }
 
 class SurveyOption {
@@ -541,6 +660,17 @@ class SurveyOption {
         this.text,
     });
 
+    factory SurveyOption.fromJson(Map<String, dynamic> json) => SurveyOption(
+        id: json["id"],
+        surveyQuestionId: json["survey_question_id"],
+        text: json["text"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "survey_question_id": surveyQuestionId,
+        "text": text,
+    };
 }
 
 class SurveyResponse {
@@ -558,4 +688,19 @@ class SurveyResponse {
         this.surveyOption,
     });
 
+    factory SurveyResponse.fromJson(Map<String, dynamic> json) => SurveyResponse(
+        id: json["id"],
+        text: json["text"],
+        surveyOptionId: json["survey_option_id"],
+        profile: json["profile"] == null ? null : Profile.fromJson(json["profile"]),
+        surveyOption: json["survey_option"] == null ? null : SurveyOption.fromJson(json["survey_option"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "text": text,
+        "survey_option_id": surveyOptionId,
+        "profile": profile?.toJson(),
+        "survey_option": surveyOption?.toJson(),
+    };
 }

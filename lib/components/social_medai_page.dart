@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:socialmedia_page/components/likecommentcoustombtn.dart';
 import 'package:socialmedia_page/components/sharethouthcoustombtn.dart';
 import 'package:socialmedia_page/model/userpostmodel.dart';
@@ -27,37 +28,36 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: width,
-                  height: height,
-                  child: Obx(() {
-                    if (socialController.isLoading.value) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (socialController.fetchedData.value != null) {
-                      // Replace this part with how you want to display your data
-                      final fetchedData = socialController.fetchedData.value;
-                      return Text("Fetched Data: $fetchedData");
-                    } else {
-                      
-                      return Text("Failed to fetch data.");
-                    }
-                  }),
-                ),
-              ],
-            ),
-          ),
-        ),
+    return 
+     Scaffold(
+      body:Obx(
+        () {
+          if (socialController.isLoading.value) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (socialController.fetchedData.isEmpty) {
+            return Center(
+              child: Text('No data available'),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: socialController.fetchedData.length,
+              itemBuilder: (context, index) {
+                final item = socialController.fetchedData[index];
+                return ListTile(
+                  title: Text('ID: ${item.id.toString()}'),
+                  subtitle: Text(
+                    'Total Comments: ${item.totalComments.toString()} Total Likes: ${item.totalLikes.toString()}',
+                  ),
+                );
+              },
+            );
+          }
+        },
       ),
     );
+    
   }
 }
 

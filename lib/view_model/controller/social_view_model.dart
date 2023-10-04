@@ -111,11 +111,50 @@ import 'package:socialmedia_page/repositry/socialrepositry/socialrepositry.dart'
 //   }
 // }
 
+// class SocialController extends GetxController {
+//   final _api = SocailRepositry();
+
+//   var isLoading = true.obs;
+//   Rx<dynamic> fetchedData = Rx<dynamic>(null);
+//   late WallPosts data;
+//  Future<void> fetchUserList() async {
+//   try {
+//     isLoading(true);
+//     final value = await _api.userListApi();
+
+//     if (value != null) {
+//       fetchedData.value = value;
+//       try {
+     
+//         debugPrint("Shubham:${value['wall_posts']}");
+//         if (kDebugMode) {
+//           // print("First Name: $firstName");
+//         }
+//       } catch (e) {
+//         debugPrint("Error Conversion of data WallPost $e");
+//       }
+//     } else {
+//       // Handle null data
+//       print("API returned null data.");
+//     }
+//   } catch (error) {
+//     if (kDebugMode) {
+//       print("Error: $error");
+//     }
+//   } finally {
+//     isLoading(false);
+//   }
+// }
+
+// }
+
+
+
 class SocialController extends GetxController {
   final _api = SocailRepositry();
 
   var isLoading = true.obs;
-  Rx<dynamic> fetchedData = Rx<dynamic>(null);
+  List fetchedData = [].obs;
   late WallPosts data;
  Future<void> fetchUserList() async {
   try {
@@ -123,10 +162,10 @@ class SocialController extends GetxController {
     final value = await _api.userListApi();
 
     if (value != null) {
-      fetchedData.value = value;
+      fetchedData = value;
       try {
      
-        debugPrint("Shubham:${value['wall_posts']}");
+        debugPrint("Shubham:${value}");
         if (kDebugMode) {
           // print("First Name: $firstName");
         }
