@@ -20,7 +20,7 @@ class NetworkService extends BaseApiService {
       };
       final responsce = await get(Uri.parse(url), headers: headers)
           .timeout(const Duration(seconds: 30));
-      debugPrint(responsce.toString());
+      // debugPrint(responsce.toString());
       responscejson = returnResponsce(responsce);
     } catch (e) {
       if (kDebugMode) {
@@ -38,10 +38,10 @@ class NetworkService extends BaseApiService {
   dynamic returnResponsce(http.Response response) {
     switch (response.statusCode) {
       case 200:
-        dynamic responsceJson = jsonDecode(response.body);
+        dynamic responsceJson = json.decode(response.body);
         return responsceJson;
       case 400:
-        dynamic responsceJson = jsonDecode(response.body);
+        dynamic responsceJson = json.decode(response.body);
         return responsceJson;
       default:
         if (kDebugMode) {

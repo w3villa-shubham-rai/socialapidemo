@@ -16,7 +16,6 @@
 //     UserList.value = _value;
 //   }
 
-
 //   void userlistApi() {
 //     _api.userListApi().then((value) {
 //       setUserList(value);
@@ -28,13 +27,10 @@
 //   }
 // }
 
-
 // import 'package:flutter/foundation.dart';
 // import 'package:get/get.dart';
 // import 'package:socialmedia_page/model/socialmediapage/social_media_model_form.dart';
 // import 'package:socialmedia_page/repositry/socialrepositry/socialrepositry.dart';
-
-
 
 // class SocialController extends GetxController {
 //   final _api = SocailRepositry();
@@ -56,35 +52,35 @@
 //   }
 // }
 
-
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:socialmedia_page/model/socialmediapage/social_media_model_form.dart';
 
 import 'package:socialmedia_page/repositry/socialrepositry/socialrepositry.dart';
 
 // class SocialController extends GetxController {
 //   final _api = SocailRepositry();
 
-  // final userList = WallPosts(wallPosts: [], totalPages: 0).obs;
-  
-  // void setUserList(WallPosts value) {
-  //   userList.value = value;
-  // }
+// final userList = WallPosts(wallPosts: [], totalPages: 0).obs;
 
-  // dynamic fetchUserList() async {
-  // await _api.userListApi().then((value) 
-  //   {
-  //     // setUserList(value);
-  //     // Print the API data once it's fetched.
-  //     if (kDebugMode) {
-  //       print("API Data: ${value.toJson()}");
-  //     }
-  //   }).catchError((error) {
-  //     if (kDebugMode) {
-  //       print("Error: $error");
-  //     }
-  //   });
-  // }
+// void setUserList(WallPosts value) {
+//   userList.value = value;
+// }
+
+// dynamic fetchUserList() async {
+// await _api.userListApi().then((value)
+//   {
+//     // setUserList(value);
+//     // Print the API data once it's fetched.
+//     if (kDebugMode) {
+//       print("API Data: ${value.toJson()}");
+//     }
+//   }).catchError((error) {
+//     if (kDebugMode) {
+//       print("Error: $error");
+//     }
+//   });
+// }
 // }
 
 // class SocialController extends GetxController {
@@ -115,35 +111,39 @@ import 'package:socialmedia_page/repositry/socialrepositry/socialrepositry.dart'
 //   }
 // }
 
-
 class SocialController extends GetxController {
   final _api = SocailRepositry();
 
   var isLoading = true.obs;
-  Rx<dynamic> fetchedData = Rx<dynamic>(null); 
+  Rx<dynamic> fetchedData = Rx<dynamic>(null);
+  late WallPosts data;
+ Future<void> fetchUserList() async {
+  try {
+    isLoading(true);
+    final value = await _api.userListApi();
 
-  Future<void> fetchUserList() async {
-    try {
-      isLoading(true);
-      final value = await _api.userListApi();
-      if (value != null) {
-        fetchedData.value = value;
+    if (value != null) {
+      fetchedData.value = value;
+      try {
+     
+        debugPrint("Shubham:${value['wall_posts']}");
         if (kDebugMode) {
-          print("API Data: ${fetchedData.value}");
+          // print("First Name: $firstName");
         }
-      } else {
-       
+      } catch (e) {
+        debugPrint("Error Conversion of data WallPost $e");
       }
-    } catch (error) {
-      if (kDebugMode) {
-        print("Error: $error");
-      }
-    } finally {
-      isLoading(false);
+    } else {
+      // Handle null data
+      print("API returned null data.");
     }
+  } catch (error) {
+    if (kDebugMode) {
+      print("Error: $error");
+    }
+  } finally {
+    isLoading(false);
   }
 }
 
-
-
-
+}
