@@ -45,7 +45,9 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
               itemCount: socialController.fetchedData.length,
               itemBuilder: (context, index) {
                 return UserPostContentSection(
-                    userpostsection: socialController.fetchedData[index]);
+                  userpostsection: socialController.fetchedData[index],
+                  indexofitem: index,
+                );
               },
             );
           }
@@ -325,7 +327,8 @@ Widget ShareThought() {
 // social media main part start
 
 // ignore: non_constant_identifier_names
-Widget UserPostContentSection({required WallPost userpostsection}) {
+Widget UserPostContentSection(
+    {required WallPost userpostsection, required int indexofitem}) {
   return Container(
     margin: const EdgeInsets.only(top: 10),
     decoration: const BoxDecoration(
@@ -346,7 +349,9 @@ Widget UserPostContentSection({required WallPost userpostsection}) {
               Row(
                 children: [
                   CircleAvatar(
-                    backgroundImage: NetworkImage("https://staging.simmpli.com" +userpostsection.profile!.dpUrlSmall.toString()),
+                    backgroundImage: NetworkImage(
+                        "https://staging.simmpli.com" +
+                            userpostsection.profile!.dpUrlSmall.toString()),
                     radius: 20,
                   ),
                   const SizedBox(
@@ -372,8 +377,8 @@ Widget UserPostContentSection({required WallPost userpostsection}) {
                           const SizedBox(
                             width: 5,
                           ),
-                           Text(
-                             userpostsection.timeAgo.toString(),
+                          Text(
+                            userpostsection.timeAgo.toString(),
                             style: const TextStyle(
                                 color: Color(0xFFBABDC9), fontSize: 12),
                           )
@@ -394,19 +399,28 @@ Widget UserPostContentSection({required WallPost userpostsection}) {
               // ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20, bottom: 10),
-            child: Container(
-              height: 245,
-              width: double.infinity,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
-                // image: DecorationImage(
-                //     image: AssetImage(userpostsection.usermainpostedimg),
-                //     fit: BoxFit.fill),
-              ),
-            ),
-          ),
+         Padding(
+  padding: const EdgeInsets.only(top: 20, bottom: 10),
+  child: Container(
+    height: 245,
+    width: double.infinity,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+    ),
+    child: ListView.builder(
+      shrinkWrap: true,
+      itemCount: userpostsection.children?.length ?? 0, // Ensure itemCount is not null
+      itemBuilder: (context, index) {
+        final imageUrl = userpostsection.children![index].imageUrl; // Assuming this is your image URL property
+        return Image.network(
+          imageUrl.toString(),
+          fit: BoxFit.fill,
+        );
+      },
+    ),
+  ),
+),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -455,15 +469,23 @@ Widget UserPostContentSection({required WallPost userpostsection}) {
                       flex: 4,
                       child: Column(
                         children: [
-                          const Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Rajan Tiwari',
-                                style: TextStyle(
-                                    color: Color(0xFF40518A),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w900),
-                              )),
+                          if (userpostsection.postComments != null)
+                            ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: userpostsection.postComments?.length,
+                                itemBuilder: (context, index) {
+                                  final postcommentname =
+                                      userpostsection.postComments?[index];
+                                  return Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        postcommentname!.fullName.toString(),
+                                        style: const TextStyle(
+                                            color: Color(0xFF40518A),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w900),
+                                      ));
+                                }),
                           Container(
                             decoration: BoxDecoration(
                                 color: const Color(0xFFF0F4FF),
@@ -475,21 +497,23 @@ Widget UserPostContentSection({required WallPost userpostsection}) {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                     if (userpostsection.postComments != null)
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: userpostsection.postComments?.length,
-            itemBuilder: (context, index) {
-              final postComment = userpostsection.postComments?[index];
-              return Text(
-                postComment!.content.toString(),
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-              );
-            },
-          ),
+                                    if (userpostsection.postComments != null)
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: userpostsection
+                                            .postComments?.length,
+                                        itemBuilder: (context, index) {
+                                          final postComment = userpostsection
+                                              .postComments?[index];
+                                          return Text(
+                                            postComment!.content.toString(),
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     // Text(
                                     //   'Happy Birthday @Sandeep Tomer',
                                     //   style: TextStyle(
@@ -497,13 +521,24 @@ Widget UserPostContentSection({required WallPost userpostsection}) {
                                     //       fontSize: 14,
                                     //       fontWeight: FontWeight.w700),
                                     // ),
-                                    Text(
-                                      'Thursday,13 jul 2023',
-                                      style: TextStyle(
-                                          color: Color(0xFF9F9F9F),
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500),
-                                    ),
+
+                                    if (userpostsection.postComments != null)
+                                      ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: userpostsection
+                                              .postComments?.length,
+                                          itemBuilder: (context, index) {
+                                            final postcommentdate =
+                                                userpostsection
+                                                    .postComments?[index];
+                                            return  Text(
+                                              postcommentdate!.date.toString(),
+                                              style: const TextStyle(
+                                                  color: Color(0xFF9F9F9F),
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w500),
+                                            );
+                                          }),
                                   ],
                                 ),
                               ),
