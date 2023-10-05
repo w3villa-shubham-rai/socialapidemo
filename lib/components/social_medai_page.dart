@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
+
 import 'package:socialmedia_page/components/likecommentcoustombtn.dart';
 import 'package:socialmedia_page/components/sharethouthcoustombtn.dart';
+import 'package:socialmedia_page/components/socialimagecoustomwidget.dart';
 import 'package:socialmedia_page/model/socialmediapage/social_media_model_form.dart';
-import 'package:socialmedia_page/model/userpostmodel.dart';
+
 import 'package:socialmedia_page/model/userstorymodel.dart';
 import 'package:socialmedia_page/view_model/controller/social_view_model.dart';
 
@@ -399,28 +400,31 @@ Widget UserPostContentSection(
               // ),
             ),
           ),
-         Padding(
-  padding: const EdgeInsets.only(top: 20, bottom: 10),
-  child: Container(
-    height: 245,
-    width: double.infinity,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(20)),
-    ),
-    child: ListView.builder(
-      shrinkWrap: true,
-      itemCount: userpostsection.children?.length ?? 0, // Ensure itemCount is not null
-      itemBuilder: (context, index) {
-        final imageUrl = userpostsection.children![index].imageUrl; // Assuming this is your image URL property
-        return Image.network(
-          imageUrl.toString(),
-          fit: BoxFit.fill,
-        );
-      },
-    ),
-  ),
-),
-
+          Padding(
+            padding: const EdgeInsets.only(top: 20, bottom: 10),
+            child: Container(
+              height: 245,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              
+              child: Socialpagegrid(list:userpostsection.children)
+              // ListView.builder(
+              //   shrinkWrap: true,
+              //   itemCount: userpostsection.children?.length ??
+              //       0, // Ensure itemCount is not null
+              //   itemBuilder: (context, index) {
+              //     final imageUrl = userpostsection.children![index]
+              //         .imageUrl; // Assuming this is your image URL property
+              //     return Image.network(
+              //       imageUrl.toString(),
+              //       fit: BoxFit.fill,
+              //     );
+              //   },
+              // ),
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -505,8 +509,11 @@ Widget UserPostContentSection(
                                         itemBuilder: (context, index) {
                                           final postComment = userpostsection
                                               .postComments?[index];
+                                        String html=postComment!.content.toString();
+                                        RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
+                                        String parsedstring1 = html.replaceAll(exp, '');
                                           return Text(
-                                            postComment!.content.toString(),
+                                            parsedstring1,
                                             style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 16,
@@ -531,7 +538,7 @@ Widget UserPostContentSection(
                                             final postcommentdate =
                                                 userpostsection
                                                     .postComments?[index];
-                                            return  Text(
+                                            return Text(
                                               postcommentdate!.date.toString(),
                                               style: const TextStyle(
                                                   color: Color(0xFF9F9F9F),
