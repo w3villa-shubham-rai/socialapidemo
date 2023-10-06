@@ -410,7 +410,6 @@
 //   }
 // }
 
-
 // To parse this JSON data, do
 //
 //     final wallPosts = wallPostsFromJson(jsonString);
@@ -422,75 +421,80 @@ WallPosts wallPostsFromJson(String str) => WallPosts.fromJson(json.decode(str));
 String wallPostsToJson(WallPosts data) => json.encode(data.toJson());
 
 class WallPosts {
-    List<WallPost>? wallPosts;
-    int? totalPages;
+  List<WallPost>? wallPosts;
+  int? totalPages;
 
-    WallPosts({
-        this.wallPosts,
-        this.totalPages,
-    });
+  WallPosts({
+    this.wallPosts,
+    this.totalPages,
+  });
 
-    factory WallPosts.fromJson(Map<String, dynamic> json) => WallPosts(
-        wallPosts: json["wall_posts"] == null ? [] : List<WallPost>.from(json["wall_posts"]!.map((x) => WallPost.fromJson(x))),
+  factory WallPosts.fromJson(Map<String, dynamic> json) => WallPosts(
+        wallPosts: json["wall_posts"] == null
+            ? []
+            : List<WallPost>.from(
+                json["wall_posts"]!.map((x) => WallPost.fromJson(x))),
         totalPages: json["total_pages"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
-        "wall_posts": wallPosts == null ? [] : List<dynamic>.from(wallPosts!.map((x) => x.toJson())),
+  Map<String, dynamic> toJson() => {
+        "wall_posts": wallPosts == null
+            ? []
+            : List<dynamic>.from(wallPosts!.map((x) => x.toJson())),
         "total_pages": totalPages,
-    };
+      };
 }
 
 class WallPost {
-    int? id;
-    String? postBody;
-    String? body;
-    dynamic formattedBody;
-    String? wallPostType;
-    dynamic emojiName;
-    bool? isLiked;
-    int? totalLikes;
-    String? timeAgo;
-    String? attachmentUrl;
-    String? originalAttachmentUrl;
-    bool? isEdited;
-    bool? surveyTaken;
-    int? totalComments;
-    String? imageUrl;
-    bool? isVideo;
-    String? outsideShowcaseImage;
-    String? imgUrlSmall;
-    Profile? profile;
-    List<WallPost>? children;
-    List<SurveyQuestion>? surveyQuestions;
-    List<PostComment>? postComments;
+  int? id;
+  String? postBody;
+  String? body;
+  dynamic formattedBody;
+  String? wallPostType;
+  dynamic emojiName;
+  bool? isLiked;
+  int? totalLikes;
+  String? timeAgo;
+  String? attachmentUrl;
+  String? originalAttachmentUrl;
+  bool? isEdited;
+  bool? surveyTaken;
+  int? totalComments;
+  String? imageUrl;
+  bool? isVideo;
+  String? outsideShowcaseImage;
+  String? imgUrlSmall;
+  Profile? profile;
+  List<WallPost>? children;
+  List<SurveyQuestion>? surveyQuestions;
+  List<PostComment>? postComments;
 
-    WallPost({
-        this.id,
-        this.postBody,
-        this.body,
-        this.formattedBody,
-        this.wallPostType,
-        this.emojiName,
-        this.isLiked,
-        this.totalLikes,
-        this.timeAgo,
-        this.attachmentUrl,
-        this.originalAttachmentUrl,
-        this.isEdited,
-        this.surveyTaken,
-        this.totalComments,
-        this.imageUrl,
-        this.isVideo,
-        this.outsideShowcaseImage,
-        this.imgUrlSmall,
-        this.profile,
-        this.children,
-        this.surveyQuestions,
-        this.postComments,
-    });
+  WallPost({
+    this.id,
+    this.postBody,
+    this.body,
+    this.formattedBody,
+    this.wallPostType,
+    this.emojiName,
+    this.isLiked,
+    this.totalLikes,
+    this.timeAgo,
+    this.attachmentUrl,
+    this.originalAttachmentUrl,
+    this.isEdited,
+    this.surveyTaken,
+    this.totalComments,
+    this.imageUrl,
+    this.isVideo,
+    this.outsideShowcaseImage,
+    this.imgUrlSmall,
+    this.profile,
+    this.children,
+    this.surveyQuestions,
+    this.postComments,
+  });
 
-    factory WallPost.fromJson(Map<String, dynamic> json) => WallPost(
+  factory WallPost.fromJson(Map<String, dynamic> json) => WallPost(
         id: json["id"],
         postBody: json["post_body"],
         body: json["body"],
@@ -509,13 +513,23 @@ class WallPost {
         isVideo: json["is_video"],
         outsideShowcaseImage: json["outside_showcase_image"],
         imgUrlSmall: json["img_url_small"],
-        profile: json["profile"] == null ? null : Profile.fromJson(json["profile"]),
-        children: json["children"] == null ? [] : List<WallPost>.from(json["children"]!.map((x) => WallPost.fromJson(x))),
-        surveyQuestions: json["survey_questions"] == null ? [] : List<SurveyQuestion>.from(json["survey_questions"]!.map((x) => SurveyQuestion.fromJson(x))),
-        postComments: json["post_comments"] == null ? [] : List<PostComment>.from(json["post_comments"]!.map((x) => PostComment.fromJson(x))),
-    );
+        profile:
+            json["profile"] == null ? null : Profile.fromJson(json["profile"]),
+        children: json["children"] == null
+            ? []
+            : List<WallPost>.from(
+                json["children"]!.map((x) => WallPost.fromJson(x))),
+        surveyQuestions: json["survey_questions"] == null
+            ? []
+            : List<SurveyQuestion>.from(json["survey_questions"]!
+                .map((x) => SurveyQuestion.fromJson(x))),
+        postComments: json["post_comments"] == null
+            ? []
+            : List<PostComment>.from(
+                json["post_comments"]!.map((x) => PostComment.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "post_body": postBody,
         "body": body,
@@ -535,32 +549,38 @@ class WallPost {
         "outside_showcase_image": outsideShowcaseImage,
         "img_url_small": imgUrlSmall,
         "profile": profile?.toJson(),
-        "children": children == null ? [] : List<dynamic>.from(children!.map((x) => x.toJson())),
-        "survey_questions": surveyQuestions == null ? [] : List<dynamic>.from(surveyQuestions!.map((x) => x.toJson())),
-        "post_comments": postComments == null ? [] : List<dynamic>.from(postComments!.map((x) => x.toJson())),
-    };
+        "children": children == null
+            ? []
+            : List<dynamic>.from(children!.map((x) => x.toJson())),
+        "survey_questions": surveyQuestions == null
+            ? []
+            : List<dynamic>.from(surveyQuestions!.map((x) => x.toJson())),
+        "post_comments": postComments == null
+            ? []
+            : List<dynamic>.from(postComments!.map((x) => x.toJson())),
+      };
 }
 
 class PostComment {
-    int? id;
-    String? date;
-    String? formattedBody;
-    String? fullName;
-    int? profileId;
-    String? dp;
-    String? content;
+  int? id;
+  String? date;
+  String? formattedBody;
+  String? fullName;
+  int? profileId;
+  String? dp;
+  String? content;
 
-    PostComment({
-        this.id,
-        this.date,
-        this.formattedBody,
-        this.fullName,
-        this.profileId,
-        this.dp,
-        this.content,
-    });
+  PostComment({
+    this.id,
+    this.date,
+    this.formattedBody,
+    this.fullName,
+    this.profileId,
+    this.dp,
+    this.content,
+  });
 
-    factory PostComment.fromJson(Map<String, dynamic> json) => PostComment(
+  factory PostComment.fromJson(Map<String, dynamic> json) => PostComment(
         id: json["id"],
         date: json["date"],
         formattedBody: json["formatted_body"],
@@ -568,9 +588,9 @@ class PostComment {
         profileId: json["profile_id"],
         dp: json["dp"],
         content: json["content"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "date": date,
         "formatted_body": formattedBody,
@@ -578,129 +598,142 @@ class PostComment {
         "profile_id": profileId,
         "dp": dp,
         "content": content,
-    };
+      };
 }
 
 class Profile {
-    int? id;
-    String? firstName;
-    String? dpUrlSmall;
-    String? fullName;
-    dynamic deletedAt;
+  int? id;
+  String? firstName;
+  String? dpUrlSmall;
+  String? fullName;
+  dynamic deletedAt;
 
-    Profile({
-        this.id,
-        this.firstName,
-        this.dpUrlSmall,
-        this.fullName,
-        this.deletedAt,
-    });
+  Profile({
+    this.id,
+    this.firstName,
+    this.dpUrlSmall,
+    this.fullName,
+    this.deletedAt,
+  });
 
-    factory Profile.fromJson(Map<String, dynamic> json) => Profile(
+  factory Profile.fromJson(Map<String, dynamic> json) => Profile(
         id: json["id"],
         firstName: json["first_name"],
         dpUrlSmall: json["dp_url_small"],
         fullName: json["full_name"],
         deletedAt: json["deleted_at"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "first_name": firstName,
         "dp_url_small": dpUrlSmall,
         "full_name": fullName,
         "deleted_at": deletedAt,
-    };
+      };
 }
 
 class SurveyQuestion {
-    int? id;
-    String? text;
-    String? questionType;
-    bool? required;
-    List<SurveyOption>? surveyOptions;
-    List<SurveyResponse>? surveyResponses;
+  int? id;
+  String? text;
+  String? questionType;
+  bool? required;
+  List<SurveyOption>? surveyOptions;
+  List<SurveyResponse>? surveyResponses;
 
-    SurveyQuestion({
-        this.id,
-        this.text,
-        this.questionType,
-        this.required,
-        this.surveyOptions,
-        this.surveyResponses,
-    });
+  SurveyQuestion({
+    this.id,
+    this.text,
+    this.questionType,
+    this.required,
+    this.surveyOptions,
+    this.surveyResponses,
+  });
 
-    factory SurveyQuestion.fromJson(Map<String, dynamic> json) => SurveyQuestion(
+  factory SurveyQuestion.fromJson(Map<String, dynamic> json) => SurveyQuestion(
         id: json["id"],
         text: json["text"],
         questionType: json["question_type"],
         required: json["required"],
-        surveyOptions: json["survey_options"] == null ? [] : List<SurveyOption>.from(json["survey_options"]!.map((x) => SurveyOption.fromJson(x))),
-        surveyResponses: json["survey_responses"] == null ? [] : List<SurveyResponse>.from(json["survey_responses"]!.map((x) => SurveyResponse.fromJson(x))),
-    );
+        surveyOptions: json["survey_options"] == null
+            ? []
+            : List<SurveyOption>.from(
+                json["survey_options"]!.map((x) => SurveyOption.fromJson(x))),
+        surveyResponses: json["survey_responses"] == null
+            ? []
+            : List<SurveyResponse>.from(json["survey_responses"]!
+                .map((x) => SurveyResponse.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "text": text,
         "question_type": questionType,
         "required": required,
-        "survey_options": surveyOptions == null ? [] : List<dynamic>.from(surveyOptions!.map((x) => x.toJson())),
-        "survey_responses": surveyResponses == null ? [] : List<dynamic>.from(surveyResponses!.map((x) => x.toJson())),
-    };
+        "survey_options": surveyOptions == null
+            ? []
+            : List<dynamic>.from(surveyOptions!.map((x) => x.toJson())),
+        "survey_responses": surveyResponses == null
+            ? []
+            : List<dynamic>.from(surveyResponses!.map((x) => x.toJson())),
+      };
 }
 
 class SurveyOption {
-    int? id;
-    int? surveyQuestionId;
-    String? text;
+  int? id;
+  int? surveyQuestionId;
+  String? text;
 
-    SurveyOption({
-        this.id,
-        this.surveyQuestionId,
-        this.text,
-    });
+  SurveyOption({
+    this.id,
+    this.surveyQuestionId,
+    this.text,
+  });
 
-    factory SurveyOption.fromJson(Map<String, dynamic> json) => SurveyOption(
+  factory SurveyOption.fromJson(Map<String, dynamic> json) => SurveyOption(
         id: json["id"],
         surveyQuestionId: json["survey_question_id"],
         text: json["text"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "survey_question_id": surveyQuestionId,
         "text": text,
-    };
+      };
 }
 
 class SurveyResponse {
-    int? id;
-    dynamic text;
-    int? surveyOptionId;
-    Profile? profile;
-    SurveyOption? surveyOption;
+  int? id;
+  dynamic text;
+  int? surveyOptionId;
+  Profile? profile;
+  SurveyOption? surveyOption;
 
-    SurveyResponse({
-        this.id,
-        this.text,
-        this.surveyOptionId,
-        this.profile,
-        this.surveyOption,
-    });
+  SurveyResponse({
+    this.id,
+    this.text,
+    this.surveyOptionId,
+    this.profile,
+    this.surveyOption,
+  });
 
-    factory SurveyResponse.fromJson(Map<String, dynamic> json) => SurveyResponse(
+  factory SurveyResponse.fromJson(Map<String, dynamic> json) => SurveyResponse(
         id: json["id"],
         text: json["text"],
         surveyOptionId: json["survey_option_id"],
-        profile: json["profile"] == null ? null : Profile.fromJson(json["profile"]),
-        surveyOption: json["survey_option"] == null ? null : SurveyOption.fromJson(json["survey_option"]),
-    );
+        profile:
+            json["profile"] == null ? null : Profile.fromJson(json["profile"]),
+        surveyOption: json["survey_option"] == null
+            ? null
+            : SurveyOption.fromJson(json["survey_option"]),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "text": text,
         "survey_option_id": surveyOptionId,
         "profile": profile?.toJson(),
         "survey_option": surveyOption?.toJson(),
-    };
+      };
 }

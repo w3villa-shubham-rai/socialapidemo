@@ -48,7 +48,6 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
                 return UserPostContentSection(
                   userpostsection: socialController.fetchedData[index],
                   indexofitem: index,
-                  
                 );
               },
             );
@@ -401,34 +400,32 @@ Widget UserPostContentSection(
               // ),
             ),
           ),
-          Visibility(           
-             visible: userpostsection.children?.isNotEmpty == true,
+          Visibility(
+            visible: userpostsection.children?.isNotEmpty == true,
             child: Padding(
               padding: const EdgeInsets.only(top: 20, bottom: 10),
               child: Container(
-                height: 245,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                
-                child: Socialpagegrid(list: userpostsection.children)
-               
-                
-                // ListView.builder(
-                //   shrinkWrap: true,
-                //   itemCount: userpostsection.children?.length ??
-                //       0, // Ensure itemCount is not null
-                //   itemBuilder: (context, index) {
-                //     final imageUrl = userpostsection.children![index]
-                //         .imageUrl; // Assuming this is your image URL property
-                //     return Image.network(
-                //       imageUrl.toString(),
-                //       fit: BoxFit.fill,
-                //     );
-                //   },
-                // ),
-              ),
+                  height: 245,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
+                  child: Socialpagegrid(list: userpostsection.children)
+
+                  // ListView.builder(
+                  //   shrinkWrap: true,
+                  //   itemCount: userpostsection.children?.length ??
+                  //       0, // Ensure itemCount is not null
+                  //   itemBuilder: (context, index) {
+                  //     final imageUrl = userpostsection.children![index]
+                  //         .imageUrl; // Assuming this is your image URL property
+                  //     return Image.network(
+                  //       imageUrl.toString(),
+                  //       fit: BoxFit.fill,
+                  //     );
+                  //   },
+                  // ),
+                  ),
             ),
           ),
           Row(
@@ -515,9 +512,13 @@ Widget UserPostContentSection(
                                         itemBuilder: (context, index) {
                                           final postComment = userpostsection
                                               .postComments?[index];
-                                        String html=postComment!.content.toString();
-                                        RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
-                                        String parsedstring1 = html.replaceAll(exp, '');
+                                          String html =
+                                              postComment!.content.toString();
+                                          RegExp exp = RegExp(r"<[^>]*>",
+                                              multiLine: true,
+                                              caseSensitive: true);
+                                          String parsedstring1 =
+                                              html.replaceAll(exp, '');
                                           return Text(
                                             parsedstring1,
                                             style: const TextStyle(

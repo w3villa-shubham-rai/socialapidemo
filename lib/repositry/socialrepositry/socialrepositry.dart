@@ -14,19 +14,18 @@ import 'package:socialmedia_page/res/appurl/appurl.dart';
 //   }
 // }
 
-
 //  class SocailRepositry {
 //   final _apiservice = NetworkService();
 //   Future<Map<String, dynamic>?> userListApi() async {
 //     try {
 //       Map<String, dynamic>? response = await _apiservice.getApi(AppUrl.socialmediapageurl);
-      
+
 //       return response;
 //     } catch (error) {
 //       if (kDebugMode) {
 //         print("Error: $error");
 //       }
-//       return null; 
+//       return null;
 //     }
 //   }
 // }

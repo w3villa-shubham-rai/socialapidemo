@@ -7,11 +7,10 @@ import 'package:socialmedia_page/data/network/base_api_service.dart';
 class NetworkService extends BaseApiService {
   @override
   Future<dynamic> getApi(dynamic url) async {
-      
-      if (kDebugMode) {
-        print(url);
-      }
-    
+    if (kDebugMode) {
+      print(url);
+    }
+
     dynamic responscejson;
     try {
       final Map<String, String> headers = {
@@ -31,9 +30,7 @@ class NetworkService extends BaseApiService {
   }
 
   @override
-  Future postApi(data, dynamic url) async {
-   
-  }
+  Future postApi(data, dynamic url) async {}
 
   dynamic returnResponsce(http.Response response) {
     switch (response.statusCode) {
