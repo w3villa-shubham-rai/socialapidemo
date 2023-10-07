@@ -24,8 +24,8 @@ class Socialpagegrid extends StatelessWidget {
           imageUrl2 != null &&
           imageUrl3 != null &&
           imageUrl4 != null) {
-        return buildGridLayout(
-            imageUrl1, imageUrl2, imageUrl3, imageUrl4, remainingImages,context);
+        return buildGridLayout(imageUrl1, imageUrl2, imageUrl3, imageUrl4,
+            remainingImages, context,list);
       } else {
         return const Text("One or more Image URLs are null");
       }
@@ -42,7 +42,7 @@ class Socialpagegrid extends StatelessWidget {
           imageUrl3 != null &&
           imageUrl4 != null) {
         return buildfourColorfulContainers(
-            imageUrl1, imageUrl2, imageUrl3, imageUrl4);
+            imageUrl1, imageUrl2, imageUrl3, imageUrl4,context,list);
       } else {
         return const Text("One or more Image URLs are null");
       }
@@ -51,7 +51,7 @@ class Socialpagegrid extends StatelessWidget {
     } else if (listLength == 1) {
       String? imageUrl1 = list![0].imageUrl;
       if (imageUrl1 != null) {
-        return buildColorfulContainer(imageUrl1);
+        return buildColorfulContainer(imageUrl1,context,list);
       } else {
         return const Text("One or more Image URLs are null");
       }
@@ -60,7 +60,7 @@ class Socialpagegrid extends StatelessWidget {
       String? imageUrl2 = list![1].imageUrl;
       String? imageUrl3 = list![2].imageUrl;
       if (imageUrl1 != null && imageUrl2 != null && imageUrl3 != null) {
-        return buildThreeColorfulContainers(imageUrl1, imageUrl2, imageUrl3);
+        return buildThreeColorfulContainers(imageUrl1, imageUrl2, imageUrl3,context,list);
       } else {
         return const Text("One or more Image URLs are null");
       }
@@ -68,7 +68,7 @@ class Socialpagegrid extends StatelessWidget {
       String? imageUrl1 = list![0].imageUrl;
       String? imageUrl2 = list![1].imageUrl;
       if (imageUrl1 != null && imageUrl2 != null) {
-        return buildtwoColorfulContainers(imageUrl1, imageUrl2);
+        return buildtwoColorfulContainers(imageUrl1, imageUrl2,context,list);
       } else {
         return const Text("One or more Image URLs are null");
       }
@@ -82,11 +82,22 @@ class Socialpagegrid extends StatelessWidget {
     }
   }
 
-  Widget buildGridLayout(String imageUrl1, String imageUrl2, String imageUrl3,
-      String imageUrl4, int remainingImages, BuildContext context,) {
+  Widget buildGridLayout(
+    String imageUrl1,
+    String imageUrl2,
+    String imageUrl3,
+    String imageUrl4,
+    int remainingImages,
+    BuildContext context,
+     List<WallPost>? list,
+  ) {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(context,MaterialPageRoute(builder:  (context) => UserviewPage(imageUrl: imageUrl4),))
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserviewPage(wallPostList: list),
+            ));
       },
       child: SizedBox(
         height: 300,
@@ -188,102 +199,131 @@ Widget buildfourColorfulContainers(
   String imageUrl2,
   String imageUrl3,
   String imageUrl4,
+  BuildContext context,
+   List<WallPost>? list,
 ) {
-  return Container(
-    height: 200,
-    width: 350,
-    child: Row(
-      children: [
-        Expanded(
-          child: Container(
-            color: Colors.red,
-            child: Image.network(
-              imageUrl1.toString(),
-              fit: BoxFit.fill,
+  return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserviewPage(wallPostList: list),
+            ));
+      },
+    child: Container(
+      height: 200,
+      width: 350,
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              color: Colors.red,
+              child: Image.network(
+                imageUrl1.toString(),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Expanded(
-          child: Container(
-            color: const Color.fromARGB(255, 20, 17, 203),
-            child: Image.network(
-              imageUrl2.toString(),
-              fit: BoxFit.fill,
+          const SizedBox(
+            width: 5,
+          ),
+          Expanded(
+            child: Container(
+              color: const Color.fromARGB(255, 20, 17, 203),
+              child: Image.network(
+                imageUrl2.toString(),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Expanded(
-          child: Container(
-            color: const Color.fromARGB(255, 21, 189, 192),
-            child: Image.network(
-              imageUrl3.toString(),
-              fit: BoxFit.fill,
+          const SizedBox(
+            width: 5,
+          ),
+          Expanded(
+            child: Container(
+              color: const Color.fromARGB(255, 21, 189, 192),
+              child: Image.network(
+                imageUrl3.toString(),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Expanded(
-          child: Container(
-            color: const Color.fromARGB(255, 8, 242, 12),
-            child: Image.network(
-              imageUrl2.toString(),
-              fit: BoxFit.fill,
+          const SizedBox(
+            width: 5,
+          ),
+          Expanded(
+            child: Container(
+              color: const Color.fromARGB(255, 8, 242, 12),
+              child: Image.network(
+                imageUrl2.toString(),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
 
-Widget buildColorfulContainer(String imageUrl1) {
-  return Container(
-    height: 100,
-    width: 100,
-    color: Colors.green,
-    child: Image.network(
-      imageUrl1.toString(),
-      fit: BoxFit.fill,
+Widget buildColorfulContainer(String imageUrl1,BuildContext context, List<WallPost>? list,) {
+  return GestureDetector(
+     onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserviewPage(wallPostList: list),
+            ));
+      },
+    child: Container(
+      height: 100,
+      width: 100,
+      color: Colors.green,
+      child: Image.network(
+        imageUrl1.toString(),
+        fit: BoxFit.fill,
+      ),
     ),
   );
 }
 
-Widget buildtwoColorfulContainers(String imageUrl1, String imageUrl2) {
-  return Container(
-    height: 200,
-    width: 350,
-    child: Row(
-      children: [
-        Expanded(
-          child: Container(
-            color: const Color.fromARGB(255, 38, 216, 7),
-            child: Image.network(
-              imageUrl1.toString(),
-              fit: BoxFit.fill,
+Widget buildtwoColorfulContainers(String imageUrl1, String imageUrl2,BuildContext context, List<WallPost>? list,) {
+  return GestureDetector(
+     onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserviewPage(wallPostList: list),
+            ));
+      },
+    child: Container(
+      height: 200,
+      width: 350,
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              color: const Color.fromARGB(255, 38, 216, 7),
+              child: Image.network(
+                imageUrl1.toString(),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Expanded(
-          child: Container(
-            color: const Color.fromARGB(255, 226, 16, 234),
-            child: Image.network(
-              imageUrl1.toString(),
-              fit: BoxFit.fill,
+          const SizedBox(
+            width: 5,
+          ),
+          Expanded(
+            child: Container(
+              color: const Color.fromARGB(255, 226, 16, 234),
+              child: Image.network(
+                imageUrl1.toString(),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
@@ -292,46 +332,58 @@ Widget buildThreeColorfulContainers(
   String imageUrl1,
   String imageUrl2,
   String imageUrl3,
+  BuildContext context,
+   List<WallPost>? list,
+
 ) {
-  return Container(
-    height: 200,
-    width: 350,
-    child: Row(
-      children: [
-        Expanded(
-          child: Container(
-            color: Colors.red,
-            child: Image.network(
-              imageUrl1.toString(),
-              fit: BoxFit.fill,
+  return GestureDetector(
+     onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserviewPage(wallPostList: list),
+            ));
+      },
+    child: Container(
+      height: 200,
+      width: 350,
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              color: Colors.red,
+              child: Image.network(
+                imageUrl1.toString(),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Expanded(
-          child: Container(
-            color: const Color.fromARGB(255, 20, 17, 203),
-            child: Image.network(
-              imageUrl2.toString(),
-              fit: BoxFit.fill,
+          const SizedBox(
+            width: 5,
+          ),
+          Expanded(
+            child: Container(
+              color: const Color.fromARGB(255, 20, 17, 203),
+              child: Image.network(
+                imageUrl2.toString(),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-        const SizedBox(
-          width: 5,
-        ),
-        Expanded(
-          child: Container(
-            color: const Color.fromARGB(255, 21, 189, 192),
-            child: Image.network(
-              imageUrl3.toString(),
-              fit: BoxFit.fill,
+          const SizedBox(
+            width: 5,
+          ),
+          Expanded(
+            child: Container(
+              color: const Color.fromARGB(255, 21, 189, 192),
+              child: Image.network(
+                imageUrl3.toString(),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     ),
   );
 }
