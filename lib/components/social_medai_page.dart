@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -34,11 +35,11 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
       body: Obx(
         () {
           if (socialController.isLoading.value) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (socialController.fetchedData.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('No data available'),
             );
           } else {
@@ -391,19 +392,27 @@ Widget UserPostContentSection(
               )
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 15),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              // child: Text(
-              //   userpostsection.userpoststatusDescription,
-              // ),
-            ),
-          ),
+           Visibility(
+            visible: userpostsection.postBody != null && userpostsection.postBody!.isNotEmpty,
+             child: Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Html(
+                        data: userpostsection.postBody ?? '', // Display the description from API
+                        style: {
+                          'body': Style(
+                            color: Colors.black,
+                            fontSize: FontSize(16),
+                          ),
+                        },
+                      ),
+                    )),
+           ),
           Visibility(
             visible: userpostsection.children?.isNotEmpty == true,
             child: Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 10),
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: Container(
                   height: 245,
                   width: double.infinity,
@@ -455,115 +464,117 @@ Widget UserPostContentSection(
               ))
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 30),
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            'https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-250nw-1714666150.jpg'),
-                        radius: 15,
+          Visibility(
+               visible:userpostsection.postComments != null && userpostsection.postComments!.isNotEmpty,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 30),
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              'https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-250nw-1714666150.jpg'),
+                          radius: 15,
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Column(
-                        children: [
-                          if (userpostsection.postComments != null)
-                            ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: userpostsection.postComments?.length,
-                                itemBuilder: (context, index) {
-                                  final postcommentname =
-                                      userpostsection.postComments?[index];
-                                  return Align(
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: Column(
+                          children: [
+                            if (userpostsection.postComments != null)
+                              ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: userpostsection.postComments?.length,
+                                  itemBuilder: (context, index) {
+                                    final postcommentname =
+                                        userpostsection.postComments?[index];
+                                    return Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          postcommentname!.fullName.toString(),
+                                          style: const TextStyle(
+                                              color: Color(0xFF40518A),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w900),
+                                        ));
+                                  }),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF0F4FF),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Align(
                                       alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        postcommentname!.fullName.toString(),
-                                        style: const TextStyle(
-                                            color: Color(0xFF40518A),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w900),
-                                      ));
-                                }),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: const Color(0xFFF0F4FF),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.all(3.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    if (userpostsection.postComments != null)
-                                      ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: userpostsection
-                                            .postComments?.length,
-                                        itemBuilder: (context, index) {
-                                          final postComment = userpostsection
-                                              .postComments?[index];
-                                          String html =
-                                              postComment!.content.toString();
-                                          RegExp exp = RegExp(r"<[^>]*>",
-                                              multiLine: true,
-                                              caseSensitive: true);
-                                          String parsedstring1 =
-                                              html.replaceAll(exp, '');
-                                          return Text(
-                                            parsedstring1,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                            ),
-                                          );
-                                        },
+                                      child: Padding(
+                                        padding: EdgeInsets.all(3.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            if (userpostsection.postComments != null)
+                                              ListView.builder(
+                                                shrinkWrap: true,
+                                                itemCount: userpostsection.postComments?.length,
+                                                itemBuilder: (context, index) {
+                                                  final postComment = userpostsection.postComments?[index];
+                                                  String html = postComment!.content.toString();
+                      
+                                                    return Html(
+                                                      data: html,
+                                                      style: {
+                                                        'body': Style(
+                                                          color: Colors.black,
+                                                          fontSize: FontSize(16),
+                                                        ),
+                                                      },
+                                                    );
+                                                  },
+                                                ),
+                                              // Text(
+                                              //   'Happy Birthday @Sandeep Tomer',
+                                              //   style: TextStyle(
+                                              //       color: Color(0xFF000000),
+                                              //       fontSize: 14,
+                                              //       fontWeight: FontWeight.w700),
+                                              // ),
+                      
+                                              if (userpostsection.postComments != null)
+                                                ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount: userpostsection.postComments?.length,
+                                                  itemBuilder: (context, index) {
+                                                    final postcommentdate = userpostsection.postComments?[index];
+                                                    return Text(
+                                                      postcommentdate!.date.toString(),
+                                                      style: const TextStyle(
+                                                        color: Color(0xFF9F9F9F),
+                                                        fontSize: 12,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                            ],
+                                        ),
                                       ),
-                                    // Text(
-                                    //   'Happy Birthday @Sandeep Tomer',
-                                    //   style: TextStyle(
-                                    //       color: Color(0xFF000000),
-                                    //       fontSize: 14,
-                                    //       fontWeight: FontWeight.w700),
-                                    // ),
-
-                                    if (userpostsection.postComments != null)
-                                      ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: userpostsection
-                                              .postComments?.length,
-                                          itemBuilder: (context, index) {
-                                            final postcommentdate =
-                                                userpostsection
-                                                    .postComments?[index];
-                                            return Text(
-                                              postcommentdate!.date.toString(),
-                                              style: const TextStyle(
-                                                  color: Color(0xFF9F9F9F),
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500),
-                                            );
-                                          }),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                )
-              ],
+                                    ),
+                                  )
+                      
+                      
+                      
+                      
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ],

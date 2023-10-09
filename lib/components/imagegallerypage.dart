@@ -17,12 +17,10 @@ class ImageGalleryPage extends StatefulWidget {
 
 class _ImageGalleryPageState extends State<ImageGalleryPage> {
   PageController _pageController = PageController();
-  int _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: widget.initialIndex);
   }
 
@@ -37,7 +35,6 @@ class _ImageGalleryPageState extends State<ImageGalleryPage> {
         itemCount: widget.wallPostList?.length ?? 0,
         onPageChanged: (index) {
           setState(() {
-            _currentIndex = index;
           });
         },
         itemBuilder: (context, index) {
