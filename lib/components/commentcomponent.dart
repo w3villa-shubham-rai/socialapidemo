@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:html/parser.dart';
 import 'package:socialmedia_page/model/socialmediapage/social_media_model_form.dart';
 
 class Comentcoustomwidget extends StatelessWidget {
@@ -21,10 +22,9 @@ class Comentcoustomwidget extends StatelessWidget {
           final comment = comments?[index];
           final userName = comment?.fullName ?? "";
           final commentDate = comment?.date ?? "";
-          final commentContent = Html(
-            data: comment?.content ?? "",
-          ).data ?? "";
-
+          final commentContent = comment?.content ?? "";
+          // final plainTextContent = HtmlUnescape().convert(commentContent);
+          final plainTextContent = parse(commentContent).body!.text;
 
           return Padding(
             padding: const EdgeInsets.only(top: 20),
@@ -71,7 +71,7 @@ class Comentcoustomwidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                     commentContent,
+                                     plainTextContent,
                                       style: TextStyle(
                                         color: Color(0xFF000000),
                                         fontSize: 14,

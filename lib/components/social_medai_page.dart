@@ -29,8 +29,6 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: Obx(
@@ -44,21 +42,30 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
               child: Text('No data available'),
             );
           } else {
-            return ListView.builder(
-              itemCount: socialController.fetchedData.length,
-              itemBuilder: (context, index) {
-                return UserPostContentSection(
-                  userpostsection: socialController.fetchedData[index],
-                  indexofitem: index,
-                );
-              },
+            return ListView(
+              children: [
+                getFirstItem(), 
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: socialController.fetchedData.length,
+                  itemBuilder: (context, index) {
+                    return UserPostContentSection(
+                      userpostsection: socialController.fetchedData[index],
+                      indexofitem: index,
+                    );
+                  },
+                ),
+              ],
             );
           }
         },
       ),
     );
   }
-}
+
+  }
+
 
 Widget getFirstItem() {
   return Column(
@@ -393,23 +400,25 @@ Widget UserPostContentSection(
               )
             ],
           ),
-           Visibility(
-            visible: userpostsection.postBody != null && userpostsection.postBody!.isNotEmpty,
-             child: Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Html(
-                        data: userpostsection.postBody ?? '', // Display the description from API
-                        style: {
-                          'body': Style(
-                            color: Colors.black,
-                            fontSize: FontSize(16),
-                          ),
-                        },
+          Visibility(
+            visible: userpostsection.postBody != null &&
+                userpostsection.postBody!.isNotEmpty,
+            child: Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Html(
+                    data: userpostsection.postBody ??
+                        '', // Display the description from API
+                    style: {
+                      'body': Style(
+                        color: Colors.black,
+                        fontSize: FontSize(16),
                       ),
-                    )),
-           ),
+                    },
+                  ),
+                )),
+          ),
           Visibility(
             visible: userpostsection.children?.isNotEmpty == true,
             child: Padding(
@@ -466,12 +475,13 @@ Widget UserPostContentSection(
             ],
           ),
           Visibility(
-               visible:userpostsection.postComments != null && userpostsection.postComments!.isNotEmpty,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Comentcoustomwidget(comments: userpostsection.postComments),
-            )
-          ),
+              visible: userpostsection.postComments != null &&
+                  userpostsection.postComments!.isNotEmpty,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child:
+                    Comentcoustomwidget(comments: userpostsection.postComments),
+              )),
         ],
       ),
     ),
