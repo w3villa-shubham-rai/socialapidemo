@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:socialmedia_page/components/commentcomponent.dart';
 
 import 'package:socialmedia_page/components/likecommentcoustombtn.dart';
 import 'package:socialmedia_page/components/sharethouthcoustombtn.dart';
@@ -468,114 +469,8 @@ Widget UserPostContentSection(
                visible:userpostsection.postComments != null && userpostsection.postComments!.isNotEmpty,
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 30),
-                        child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-250nw-1714666150.jpg'),
-                          radius: 15,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        flex: 4,
-                        child: Column(
-                          children: [
-                            if (userpostsection.postComments != null)
-                              ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: userpostsection.postComments?.length,
-                                  itemBuilder: (context, index) {
-                                    final postcommentname =
-                                        userpostsection.postComments?[index];
-                                    return Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          postcommentname!.fullName.toString(),
-                                          style: const TextStyle(
-                                              color: Color(0xFF40518A),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w900),
-                                        ));
-                                  }),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFF0F4FF),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Padding(
-                                        padding: EdgeInsets.all(3.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            if (userpostsection.postComments != null)
-                                              ListView.builder(
-                                                shrinkWrap: true,
-                                                itemCount: userpostsection.postComments?.length,
-                                                itemBuilder: (context, index) {
-                                                  final postComment = userpostsection.postComments?[index];
-                                                  String html = postComment!.content.toString();
-                      
-                                                    return Html(
-                                                      data: html,
-                                                      style: {
-                                                        'body': Style(
-                                                          color: Colors.black,
-                                                          fontSize: FontSize(16),
-                                                        ),
-                                                      },
-                                                    );
-                                                  },
-                                                ),
-                                              // Text(
-                                              //   'Happy Birthday @Sandeep Tomer',
-                                              //   style: TextStyle(
-                                              //       color: Color(0xFF000000),
-                                              //       fontSize: 14,
-                                              //       fontWeight: FontWeight.w700),
-                                              // ),
-                      
-                                              if (userpostsection.postComments != null)
-                                                ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: userpostsection.postComments?.length,
-                                                  itemBuilder: (context, index) {
-                                                    final postcommentdate = userpostsection.postComments?[index];
-                                                    return Text(
-                                                      postcommentdate!.date.toString(),
-                                                      style: const TextStyle(
-                                                        color: Color(0xFF9F9F9F),
-                                                        fontSize: 12,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                            ],
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                      
-                      
-                      
-                      
-                          ],
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
-            ),
+              child: Comentcoustomwidget(comments: userpostsection.postComments),
+            )
           ),
         ],
       ),
