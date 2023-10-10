@@ -8,9 +8,6 @@ import 'package:socialmedia_page/components/likecommentcoustombtn.dart';
 import 'package:socialmedia_page/components/sharethouthcoustombtn.dart';
 import 'package:socialmedia_page/components/socialimagecoustomwidget.dart';
 import 'package:socialmedia_page/model/socialmediapage/social_media_model_form.dart';
-import 'package:socialmedia_page/model/story/story.dart';
-
-import 'package:socialmedia_page/model/userstorymodel.dart';
 import 'package:socialmedia_page/view_model/controller/social_view_model.dart';
 import 'package:socialmedia_page/view_model/controller/storycontroller.dart';
 
@@ -23,7 +20,7 @@ class SocialMedaiaPage extends StatefulWidget {
 class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
   final SocialController socialController = Get.put(SocialController());
   final StoryController storycontroller = Get.put(StoryController());
-
+  bool showAllItems = false;
   @override
   void initState() {
     super.initState();
@@ -48,14 +45,6 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
             return ListView(
               children: [
                 getFirstItem(storycontroller),
-                // ListView.builder(
-                //   shrinkWrap: true,
-                //   physics: const NeverScrollableScrollPhysics(),
-                //   itemCount: storycontroller.fetchedDatastory.length,
-                //   itemBuilder: (context, index) {
-                //     return getFirstItem();
-                //   },
-                // ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -77,66 +66,80 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
 }
 
 Widget getFirstItem(StoryController storyController) {
-  return Column(
-    children: [
-      // textpart of view all
-      const Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Upcoming Event",
-              style: TextStyle(
-                  color: Color(0xFF000000),
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold),
-            ),
-            Text(
-              "View All",
-              style: TextStyle(color: Color(0xFF2E58E6), fontSize: 15),              
-            ),
-            
-          ],
-        ),
-      ),
-      SizedBox(
-        width: 900,
-        height: 122.0,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 5),
-              child: UserStory(
-                // storyuser: storylist[index],
-                //  userpostsection: socialController.fetchedData[index],
-                storyuser:storyController.fetchedDatastory[index],
-                
-               
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 15),
+    child: Column(
+      children: [
+        // textpart of view all
+         Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Upcoming Event",
+                style: TextStyle(
+                    color: Color(0xFF000000),
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold),
               ),
-            );
-          },
-          itemCount:storyController.fetchedDatastory.length,
+              InkWell(
+                onTap: () {
+                     storyController.toggleShowAll(); 
+                },
+                child: const Text(
+                  "View All",
+                  style: TextStyle(color: Color(0xFF2E58E6), fontSize: 15),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+        SizedBox(
+          width: 900,
+          height: 122.0,
+          child: Obx(() {
+              return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                 
+                  if (storyController.showAllItems.value || index < 3) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: UserStory(
+                        storyuser: storyController.fetchedDatastory[index],
+                        itemcolor:index,
+                      ),
+                    );
+                  } else {
+                    return SizedBox.shrink(); 
+                  }
+                },
+                itemCount: storyController.showAllItems.value
+                    ? storyController.fetchedDatastory.length
+                    : 3, 
+              );
+            }),
+        ),
 
-      PostHereHeading(),
-      ShareThought(),
-      const Padding(
-        padding: EdgeInsets.only(top: 10),
-        child: Divider(
-          indent: 60,
-          endIndent: 60,
-          color: Color.fromARGB(255, 223, 221, 221),
+        PostHereHeading(),
+        ShareThought(),
+        const Padding(
+          padding: EdgeInsets.only(top: 10),
+          child: Divider(
+            indent: 60,
+            endIndent: 60,
+            color: Color.fromARGB(255, 223, 221, 221),
+          ),
         ),
-      ),
-    ],
+      ],
+    ),
   );
 }
 
 // ignore: non_constant_identifier_names
-Widget UserStory({required Datum storyuser}) {
+Widget UserStory({required storyuser, required itemcolor}) {
+   Color containerColor = itemcolor == 0 ?Color(0xFF2E58E6): Color(0XFFE6AD2E);
   return Container(
     width: 150,
     height: 122.36,
@@ -160,7 +163,9 @@ Widget UserStory({required Datum storyuser}) {
                       backgroundColor: const Color(0xFFE6AD2E),
                       child: CircleAvatar(
                         radius: 28,
-                        backgroundImage: NetworkImage(storyuser.dpUrlSmall.toString()),
+                        backgroundImage: NetworkImage(
+                            "https://staging.simmpli.com${storyuser.dpUrlSmall}"),
+                        // NetworkImage(storyuser.dpUrlSmall),
                       ),
                     ),
                   ),
@@ -186,7 +191,7 @@ Widget UserStory({required Datum storyuser}) {
               // Align(
               //   alignment: Alignment.centerLeft,
               //   child: Text(
-              //     storyuser.storyocusionname,
+              //     storyuser.message.toString(),
               //     style: const TextStyle(
               //         color: Color(0xFF8B8B8B),
               //         fontSize: 12,
@@ -200,8 +205,8 @@ Widget UserStory({required Datum storyuser}) {
             child: Container(
               width: 57,
               height: 27,
-              decoration: const BoxDecoration(
-                  color: Color(0xFF2E58E6),
+              decoration:BoxDecoration(
+                  color: containerColor,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(5),
                       bottomRight: Radius.circular(5))),

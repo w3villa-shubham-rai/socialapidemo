@@ -1,4 +1,6 @@
-
+// To parse this JSON data, do
+//
+//     final storymodel = storymodelFromJson(jsonString);
 
 import 'dart:convert';
 

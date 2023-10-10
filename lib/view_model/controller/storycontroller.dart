@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:socialmedia_page/model/story/story.dart';
+import 'package:socialmedia_page/model/story/storymodel.dart';
 import 'package:socialmedia_page/repositry/socialrepositry/socialrepositry.dart';
 
 class StoryController extends GetxController {
   final _api = SocailRepositry();
-
+  var showAllItems = false.obs;
   var isLoading = true.obs;
   List fetchedDatastory = [].obs;
   late Storymodel data;
@@ -33,4 +33,9 @@ class StoryController extends GetxController {
       isLoading(false);
     }
   }
+
+   void toggleShowAll() {
+    showAllItems.value = !showAllItems.value;
+  }
+
 }
