@@ -26,6 +26,7 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
     super.initState();
     socialController.fetchUserList();
     storycontroller.fetchUserStoryList();
+    storycontroller.fetchallcomment();
   }
 
   @override
@@ -71,7 +72,7 @@ Widget getFirstItem(StoryController storyController) {
     child: Column(
       children: [
         // textpart of view all
-         Padding(
+        Padding(
           padding: EdgeInsets.symmetric(vertical: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +86,7 @@ Widget getFirstItem(StoryController storyController) {
               ),
               InkWell(
                 onTap: () {
-                     storyController.toggleShowAll(); 
+                  storyController.toggleShowAll();
                 },
                 child: const Text(
                   "View All",
@@ -99,27 +100,26 @@ Widget getFirstItem(StoryController storyController) {
           width: 900,
           height: 122.0,
           child: Obx(() {
-              return ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                 
-                  if (storyController.showAllItems.value || index < 3) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: UserStory(
-                        storyuser: storyController.fetchedDatastory[index],
-                        itemcolor:index,
-                      ),
-                    );
-                  } else {
-                    return SizedBox.shrink(); 
-                  }
-                },
-                itemCount: storyController.showAllItems.value
-                    ? storyController.fetchedDatastory.length
-                    : 3, 
-              );
-            }),
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                if (storyController.showAllItems.value || index < 3) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: UserStory(
+                      storyuser: storyController.fetchedDatastory[index],
+                      itemcolor: index,
+                    ),
+                  );
+                } else {
+                  return SizedBox.shrink();
+                }
+              },
+              itemCount: storyController.showAllItems.value
+                  ? storyController.fetchedDatastory.length
+                  : 3,
+            );
+          }),
         ),
 
         PostHereHeading(),
@@ -139,7 +139,7 @@ Widget getFirstItem(StoryController storyController) {
 
 // ignore: non_constant_identifier_names
 Widget UserStory({required storyuser, required itemcolor}) {
-   Color containerColor = itemcolor == 0 ?Color(0xFF2E58E6): Color(0XFFE6AD2E);
+  Color containerColor = itemcolor == 0 ? Color(0xFF2E58E6) : Color(0XFFE6AD2E);
   return Container(
     width: 150,
     height: 122.36,
@@ -184,20 +184,20 @@ Widget UserStory({required storyuser, required itemcolor}) {
                   storyuser.fullName.toString(),
                   style: const TextStyle(
                       color: Color(0xFF000000),
-                      fontSize: 15,
+                      fontSize: 14,
                       fontWeight: FontWeight.w600),
                 ),
               ),
-              // Align(
-              //   alignment: Alignment.centerLeft,
-              //   child: Text(
-              //     storyuser.message.toString(),
-              //     style: const TextStyle(
-              //         color: Color(0xFF8B8B8B),
-              //         fontSize: 12,
-              //         fontWeight: FontWeight.w500),
-              //   ),
-              // )
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  storyuser.message.toString(),
+                  style: const TextStyle(
+                      color: Color(0xFF8B8B8B),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500),
+                ),
+              )
             ],
           ),
           Positioned(
@@ -205,7 +205,7 @@ Widget UserStory({required storyuser, required itemcolor}) {
             child: Container(
               width: 57,
               height: 27,
-              decoration:BoxDecoration(
+              decoration: BoxDecoration(
                   color: containerColor,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(5),

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:socialmedia_page/data/network/network_api_service.dart';
+import 'package:socialmedia_page/model/allcoment/allcoments.dart';
 import 'package:socialmedia_page/model/socialmediapage/social_media_model_form.dart';
 import 'package:socialmedia_page/model/story/storymodel.dart';
 
@@ -45,12 +46,16 @@ class SocailRepositry {
 
   userstoryListApi() async {
     var stroryresponsce = await _apiservice.getApi(AppUrl.socialmediastoryurl);
-    debugPrint("story_fetch_Response:${stroryresponsce.runtimeType}");
+    // debugPrint("story_fetch_Response:${stroryresponsce.runtimeType}");
     Storymodel data = Storymodel.fromJson(stroryresponsce);
     debugPrint("Response:${data.topThree}");
     return data.data;
   }
 
-  
-
+  showallCommentApi() async {
+    var allcomentsresponsce =
+        await _apiservice.getApi(AppUrl.socialmediaallcomment);
+    debugPrint("allcomments_Responsce:${allcomentsresponsce.runtimeType}");
+    AllComments data = AllComments.fromJson(allcomentsresponsce);
+  }
 }
