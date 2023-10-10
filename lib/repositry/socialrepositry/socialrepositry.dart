@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:socialmedia_page/data/network/network_api_service.dart';
 import 'package:socialmedia_page/model/socialmediapage/social_media_model_form.dart';
+import 'package:socialmedia_page/model/story/story.dart';
 import 'package:socialmedia_page/res/appurl/appurl.dart';
 
 // class SocailRepositry {
@@ -39,5 +40,13 @@ class SocailRepositry {
     debugPrint("Response:${data.wallPosts}");
     return data.wallPosts;
     // var orderTab = WallPosts.fromJson(json.decode(responsce));
+  }
+
+  userstoryListApi() async {
+    var stroryresponsce = await _apiservice.getApi(AppUrl.socialmediastoryurl);
+    debugPrint("story_fetch_Response:${stroryresponsce.runtimeType}");
+    Storymodel data = Storymodel.fromJson(stroryresponsce);
+    debugPrint("Response:${data.topThree}");
+    return data.topThree;
   }
 }

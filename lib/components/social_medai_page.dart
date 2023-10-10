@@ -8,9 +8,11 @@ import 'package:socialmedia_page/components/likecommentcoustombtn.dart';
 import 'package:socialmedia_page/components/sharethouthcoustombtn.dart';
 import 'package:socialmedia_page/components/socialimagecoustomwidget.dart';
 import 'package:socialmedia_page/model/socialmediapage/social_media_model_form.dart';
+import 'package:socialmedia_page/model/story/story.dart';
 
 import 'package:socialmedia_page/model/userstorymodel.dart';
 import 'package:socialmedia_page/view_model/controller/social_view_model.dart';
+import 'package:socialmedia_page/view_model/controller/storycontroller.dart';
 
 class SocialMedaiaPage extends StatefulWidget {
   const SocialMedaiaPage({super.key});
@@ -20,16 +22,17 @@ class SocialMedaiaPage extends StatefulWidget {
 
 class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
   final SocialController socialController = Get.put(SocialController());
+  final StoryController storycontroller = Get.put(StoryController());
 
   @override
   void initState() {
     super.initState();
     socialController.fetchUserList();
+    storycontroller.fetchUserStoryList();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Obx(
         () {
@@ -44,10 +47,18 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
           } else {
             return ListView(
               children: [
-                getFirstItem(), 
+                getFirstItem(storycontroller),
+                // ListView.builder(
+                //   shrinkWrap: true,
+                //   physics: const NeverScrollableScrollPhysics(),
+                //   itemCount: storycontroller.fetchedDatastory.length,
+                //   itemBuilder: (context, index) {
+                //     return getFirstItem();
+                //   },
+                // ),
                 ListView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: socialController.fetchedData.length,
                   itemBuilder: (context, index) {
                     return UserPostContentSection(
@@ -63,11 +74,9 @@ class _SocialMedaiaPageState extends State<SocialMedaiaPage> {
       ),
     );
   }
+}
 
-  }
-
-
-Widget getFirstItem() {
+Widget getFirstItem(StoryController storyController) {
   return Column(
     children: [
       // textpart of view all
@@ -85,8 +94,9 @@ Widget getFirstItem() {
             ),
             Text(
               "View All",
-              style: TextStyle(color: Color(0xFF2E58E6), fontSize: 15),
+              style: TextStyle(color: Color(0xFF2E58E6), fontSize: 15),              
             ),
+            
           ],
         ),
       ),
@@ -99,11 +109,15 @@ Widget getFirstItem() {
             return Padding(
               padding: const EdgeInsets.only(right: 5),
               child: UserStory(
-                storyuser: storylist[index],
+                // storyuser: storylist[index],
+                //  userpostsection: socialController.fetchedData[index],
+                storyuser:storyController.fetchedDatastory[index],
+                
+               
               ),
             );
           },
-          itemCount: storylist.length,
+          itemCount:storyController.fetchedDatastory.length,
         ),
       ),
 
@@ -122,7 +136,7 @@ Widget getFirstItem() {
 }
 
 // ignore: non_constant_identifier_names
-Widget UserStory({required UserStorymodel storyuser}) {
+Widget UserStory({required Datum storyuser}) {
   return Container(
     width: 150,
     height: 122.36,
@@ -146,39 +160,39 @@ Widget UserStory({required UserStorymodel storyuser}) {
                       backgroundColor: const Color(0xFFE6AD2E),
                       child: CircleAvatar(
                         radius: 28,
-                        backgroundImage: AssetImage(storyuser.storyuserimage),
+                        backgroundImage: NetworkImage(storyuser.dpUrlSmall.toString()),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 26, right: 10),
-                    child: SizedBox(
-                        height: 25,
-                        width: 25,
-                        child: SvgPicture.asset(storyuser.storyocusionimage)),
-                  )
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 26, right: 10),
+                  //   child: SizedBox(
+                  //       height: 25,
+                  //       width: 25,
+                  //       child: SvgPicture.asset(storyuser.)),
+                  // )
                 ],
               ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  storyuser.storyusername,
+                  storyuser.fullName.toString(),
                   style: const TextStyle(
                       color: Color(0xFF000000),
                       fontSize: 15,
                       fontWeight: FontWeight.w600),
                 ),
               ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  storyuser.storyocusionname,
-                  style: const TextStyle(
-                      color: Color(0xFF8B8B8B),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500),
-                ),
-              )
+              // Align(
+              //   alignment: Alignment.centerLeft,
+              //   child: Text(
+              //     storyuser.storyocusionname,
+              //     style: const TextStyle(
+              //         color: Color(0xFF8B8B8B),
+              //         fontSize: 12,
+              //         fontWeight: FontWeight.w500),
+              //   ),
+              // )
             ],
           ),
           Positioned(

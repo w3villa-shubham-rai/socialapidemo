@@ -72,7 +72,7 @@ class Comentcoustomwidget extends StatelessWidget {
                                   children: [
                                     Text(
                                      plainTextContent,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Color(0xFF000000),
                                         fontSize: 14,
                                         fontWeight: FontWeight.w700,
@@ -80,7 +80,7 @@ class Comentcoustomwidget extends StatelessWidget {
                                     ),
                                     Text(
                                       commentDate,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Color(0xFF9F9F9F),
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,
